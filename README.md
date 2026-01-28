@@ -2,20 +2,29 @@
 
 Tree view file picker for Telescope. It keeps the familiar file previewer, while rendering results as a directory tree. When you type a query, directories are reordered by the best matching file in their subtree, and matching directories temporarily expand.
 
+## Disclaimer
+
+This is 100% vibecoded. Feel free to open an issue if you find a bug or have a feature request but I can't make any promises.
+
+## Why
+
+I'm currently moving away from VSCode and for me it is still easier to reason about my project with a treeview of my project structure.
+
 ## Requirements
-- Neovim 0.9+ (uses `vim.uv` and `vim.json`)
+
+- Neovim 0.9+
 - `nvim-telescope/telescope.nvim`
 - Optional: `nvim-tree/nvim-web-devicons` for icons
-- `fd` or `rg` on your PATH
 
 ## Install (lazy.nvim)
+
 ```lua
 {
   "nvim-telescope/telescope.nvim",
   dependencies = {
     { "nvim-lua/plenary.nvim" },
     { "nvim-tree/nvim-web-devicons", optional = true },
-    { dir = "/path/to/find_files_treeview" },
+    { "Huuums/telescope-find_files_treeview" },
   },
   opts = function(_, opts)
     opts.extensions = opts.extensions or {}
@@ -30,17 +39,35 @@ Tree view file picker for Telescope. It keeps the familiar file previewer, while
 }
 ```
 
-## Usage
-```vim
-:Telescope find_files_treeview treeview
+Minimal install:
+
+```lua
+{
+  "nvim-telescope/telescope.nvim",
+  dependencies = {
+    { "nvim-lua/plenary.nvim" },
+    { "Huuums/telescope-find_files_treeview" },
+  },
+  config = function()
+    require("telescope").load_extension("find_files_treeview")
+  end,
+}
 ```
 
-Compatibility alias (if loaded):
+## Usage
+
 ```vim
-:Telescope treeview
+:Telescope find_files_treeview
+```
+
+Example normal-mode mapping:
+
+```lua
+vim.keymap.set("n", "<leader><C-p>", "<cmd>Telescope find_files_treeview treeview<cr>", { desc = "Treeview" })
 ```
 
 ## Options
+
 All options can be passed to the picker or set in `telescope.setup` under `extensions["find_files_treeview"]`.
 
 - `icons` (boolean, default: auto)
@@ -51,16 +78,20 @@ All options can be passed to the picker or set in `telescope.setup` under `exten
   - Custom persistence file path. Default: `stdpath("state")/treeview.json`.
 - `mappings` (table)
   - Override default keybindings.
+- `find_command` (table)
+  - Custom file list command. Defaults to Telescope `find_files` config, then `fd`, then `rg`.
 
 ## Default mappings
+
 - `<Right>`: expand directory
 - `<Left>`: collapse directory
-- `<C-Right>`: expand all
-- `<C-Left>`: collapse all
-- `<C-Down>`: next matching file
-- `<C-Up>`: previous matching file
+- `<C-Right>`: expand all directories
+- `<C-Left>`: collapse all directories
+- `<C-Down>`: next matching file (Selection skips over directories)
+- `<C-Up>`: previous matching file (Selection skips over directories)
 
 ## Custom mappings
+
 ```lua
 local actions = require("telescope").extensions.find_files_treeview.actions
 
@@ -85,6 +116,7 @@ require("telescope").setup({
 ```
 
 ## Actions API
+
 ```lua
 local actions = require("telescope").extensions.find_files_treeview.actions
 

@@ -19,10 +19,8 @@ USAGE                                                *find_files_treeview*
 Run the picker:
 
   :Telescope find_files_treeview treeview
-
-Compatibility alias (if loaded):
-
-  :Telescope treeview
+    or
+  :Telescope find_files_treeview
 
 =============================================================================
 OPTIONS                                             *find_files_treeview-options*

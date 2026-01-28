@@ -53,9 +53,23 @@ local function save_persisted(path, data)
   vim.fn.writefile({ content }, path)
 end
 
+local function get_telescope_find_command()
+  local picker_opts = (conf.pickers and conf.pickers.find_files) or {}
+  local cmd = picker_opts.find_command or conf.find_command
+  if cmd then
+    return vim.deepcopy(cmd)
+  end
+  return nil
+end
+
 local function get_find_command(opts)
   if opts.find_command then
     return vim.deepcopy(opts.find_command)
+  end
+
+  local telescope_cmd = get_telescope_find_command()
+  if telescope_cmd then
+    return telescope_cmd
   end
 
   if vim.fn.executable("fd") == 1 then
@@ -281,8 +295,13 @@ local function flatten_tree(state, query)
     end
   end
 
-  for i, child in ipairs(root.children) do
-    walk(child, "", i == #root.children)
+  local root_children = root.children
+  if query ~= "" then
+    root_children = sort_children(root.children)
+  end
+
+  for i, child in ipairs(root_children) do
+    walk(child, "", i == #root_children)
   end
 
   return entries
