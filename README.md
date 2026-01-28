@@ -2,6 +2,8 @@
 
 Tree view file picker for Telescope. It keeps the familiar file previewer, while rendering results as a directory tree. When you type a query, directories are reordered by the best matching file in their subtree, and matching directories temporarily expand.
 
+![Treeview example](docs/images/preview.jpg)
+
 ## Disclaimer
 
 This is 100% vibecoded. Feel free to open an issue if you find a bug or have a feature request but I can't make any promises.
