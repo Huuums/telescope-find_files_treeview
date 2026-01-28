@@ -1,0 +1,68 @@
+*find_files_treeview.txt*  Tree view picker for Telescope
+
+=============================================================================
+INTRODUCTION                                         *find_files_treeview*
+
+telescope-treeview provides a Telescope picker that renders files as a tree
+view while keeping the standard file previewer.
+
+=============================================================================
+INSTALLATION                                        *find_files_treeview*
+
+Install this plugin and load the extension:
+
+  require("telescope").load_extension("find_files_treeview")
+
+=============================================================================
+USAGE                                                *find_files_treeview*
+
+Run the picker:
+
+  :Telescope find_files_treeview treeview
+
+Compatibility alias (if loaded):
+
+  :Telescope treeview
+
+=============================================================================
+OPTIONS                                             *find_files_treeview-options*
+
+Options are passed to the picker or configured under
+`telescope.setup({ extensions = { ["telescope-treeview"] = { ... }}})`.
+
+  icons         (boolean) Show file and folder icons.
+                Default: auto (true when nvim-web-devicons is available)
+
+  persist       (boolean) Persist expanded/collapsed directories.
+                Default: true
+
+  persist_path  (string)  Custom persistence file path.
+                Default: stdpath("state")/treeview.json
+
+  mappings      (table)   Override default keybindings.
+
+=============================================================================
+DEFAULT MAPPINGS                                    *find_files_treeview-mappings*
+
+  <Right>    expand directory
+  <Left>     collapse directory
+  <C-Right>  expand all
+  <C-Left>   collapse all
+  <C-Down>   next matching file
+  <C-Up>     previous matching file
+
+=============================================================================
+ACTIONS API                                         *find_files_treeview-actions*
+
+  local actions = require("telescope").extensions.find_files_treeview.actions
+
+  actions.toggle_dir(prompt_bufnr)
+  actions.expand_dir(prompt_bufnr)
+  actions.collapse_dir(prompt_bufnr)
+  actions.expand_all(prompt_bufnr)
+  actions.collapse_all(prompt_bufnr)
+  actions.next_file(prompt_bufnr)
+  actions.prev_file(prompt_bufnr)
+
+=============================================================================
+vim:tw=78:ts=8:ft=help:norl:
